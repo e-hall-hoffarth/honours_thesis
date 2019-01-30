@@ -1,8 +1,8 @@
 import pandas
 from fuzzywuzzy import process
 
-crsp_database = 'archive/CRSP_database.csv'
-data = pandas.read_csv(crsp_database)
+compustat_database = 'archive/COMPUSTAT_database.csv'
+data = pandas.read_csv(compustat_database)
 
 def lookup_company(comp):
     choices = list(set(data['conm']))

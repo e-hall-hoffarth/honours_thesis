@@ -1,19 +1,24 @@
 import pandas as pd
 import csv
 import datetime
-import dateparser
 
-crsp_location = '~/Documents/hons_thesis/data/CRSP_database.csv'
-breach_location = '~/Documents/hons_thesis/data/data_breaches_final.csv'
-out_location = '~/Documents/hons_thesis/data/CRSP_merged.csv'
+crsp_location = 'archive/CRSP_database.csv'
+breach_location = 'data/data_breaches_final.csv'
+ff_location = 'data/FF_factors.csv'
+out_location = 'data/CRSP_merged.csv'
 
 crsp = pd.read_csv(crsp_location)
 breach = pd.read_csv(breach_location)
+ff = pd.read_csv(ff_location)
 
-breach['date'] = breach['Date Made Public'].apply(lambda x: dateparser.parse(x).strftime('%Y%m%d'))
+breach['date'] = pd.to_datetime(breach['Date Made Public'], format='%B %d, %Y')
+crsp['date'] = pd.to_datetime(crsp['date'], format='%Y%m%d')
+ff['date'] = pd.to_datetime(ff['date'], format='%Y%m%d')
+
 breach['TICKER'] = breach['tic']
 breach = breach[breach['match'] == 1]
 
 out = pd.merge(crsp, breach, how='outer', on=['date', 'TICKER'])
+out = pd.merge(out, ff, how='left', on='date')
 
 out.to_csv(out_location, index=False, quoting=csv.QUOTE_ALL)
