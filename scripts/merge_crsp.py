@@ -2,7 +2,7 @@ import pandas as pd
 import csv
 import datetime
 
-crsp_location = 'archive/CRSP_database.csv'
+crsp_location = 'archive/CRSP_small_database.csv'
 breach_location = 'data/data_breaches_final.csv'
 ff_location = 'data/FF_factors.csv'
 out_location = 'data/CRSP_merged.csv'
