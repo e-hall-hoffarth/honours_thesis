@@ -1,0 +1,11 @@
+Results vary wildly depending on things that shouldn't matter much:
+	Insignificant with time trend but large significant positive without
+	Significance depends on if admin expenses controlled or not (all periods)
+
+Advertising expenses, google searches do not appear to change discontinuously yet have significant impacts on magnitude of effect of data breach on revenue
+
+Log revenue and absolute value result in different inferences
+
+R^2 is much higher for revenue than for profit
+
+
