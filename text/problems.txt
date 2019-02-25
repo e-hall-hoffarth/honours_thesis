@@ -8,4 +8,9 @@ Log revenue and absolute value result in different inferences
 
 R^2 is much higher for revenue than for profit
 
+Try running with constant sample?
+
+Interact with dummies for quartiles in order to determine if there is heterogeneous treatment effects.
+There might be different effects for very large firms which leads to difference between log and abs
+	- No firm FE!
 
