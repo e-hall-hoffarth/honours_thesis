@@ -14,3 +14,4 @@ Interact with dummies for quartiles in order to determine if there is heterogene
 There might be different effects for very large firms which leads to difference between log and abs
 	- No firm FE!
 
+Cluster Standard Errors
