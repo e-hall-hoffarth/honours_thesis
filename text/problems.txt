@@ -15,3 +15,5 @@ There might be different effects for very large firms which leads to difference 
 	- No firm FE!
 
 Cluster Standard Errors
+
+Try discontinuity approach with different bandwidths?
