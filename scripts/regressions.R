@@ -6,13 +6,6 @@ library(ggplot2)
 library(lfe)
 library(zoo)
 
-comp = read.csv('data/COMPUSTAT_merged_trends_feb.csv')
-comp$datadate = as.Date(comp$datadate)
-comp$breachdate = as.Date(comp$Date.Made.Public, format="%Y-%m-%d", optional=T)
-comp_match = subset(comp, (!is.na(comp$match)))
-comp$treat <- ifelse(comp$gvkey %in% comp_match$gvkey,1,0)
-comp$quarters_since_begin <- (as.yearqtr(comp$datacqtr, format('%YQ%q')) - as.yearqtr('2005 Q1'))*4
-comp$quarter_as_date <- as.Date(as.yearqtr(comp$datacqtr, format('%YQ%q')))
 
 for (i in 1:nrow(comp)) {
   # print(paste('Rows remaining: ', nrow(comp)-i))
@@ -53,6 +46,14 @@ for (i in 1:nrow(comp)) {
     comp[i, 'Total.Records'] = 0
   }
 }
+
+comp = read.csv('data/COMPUSTAT_merged_trends_feb.csv')
+comp$datadate = as.Date(comp$datadate)
+comp$breachdate = as.Date(comp$Date.Made.Public, format="%Y-%m-%d", optional=T)
+comp_match = subset(comp, (!is.na(comp$match)))
+comp$treat <- ifelse(comp$gvkey %in% comp_match$gvkey,1,0)
+comp$quarters_since_begin <- (as.yearqtr(comp$datacqtr, format('%YQ%q')) - as.yearqtr('2005 Q1'))*4
+comp$quarter_as_date <- as.Date(as.yearqtr(comp$datacqtr, format('%YQ%q')))
 
 comp$after <- ifelse(comp$datadate > comp$breachdate,1,0)
 comp$time_since_begin <- comp$datadate - as.Date("2005-01-01")
@@ -97,9 +98,6 @@ comp_full10 <- intersect(comp[comp[c("quarters_since_breach", "gvkey")]$quarters
 comp_full10 <- comp_full10[!is.na(comp_full10)]
 comp_full5 <- intersect(comp[comp[c("quarters_since_breach", "gvkey")]$quarters_since_breach == -5,]$gvkey, comp[comp[c("quarters_since_breach", "gvkey")]$quarters_since_breach == 5,]$gvkey)
 comp_full5 <- comp_full5[!is.na(comp_full5)]
-
-
-write.csv(comp, 'data/COMPUSTAT_clean.csv')
 
 # invshift <- nrow(comp) - 1
 # comp$profit_proportion <- c(1, (head(comp, invshift)$niq - tail(comp, invshift)$niq)/tail(comp, invshift)$niq)
@@ -255,10 +253,30 @@ stargazer(felm(revtq ~ after + rev_quart_1*after + rev_quart_2*after + rev_quart
 
 #####
 #Profit section:
-subset_pr <- comp[!is.na(comp$time_since_breach) & !is.na(comp$niq) & !is.infinite(comp$niq),]
-resid_lm_profit <- lm(niq ~ factor(gvkey) + factor(datacqtr) + factor(gvkey)*quarters_since_begin, data = subset_pr)
+subset_pr <- comp[!is.na(comp$time_since_breach) & !is.na(comp$niq) & !is.infinite(comp$niq) & !is.na(comp$gdp_deflator),]
+resid_lm_profit <- felm(niq ~ gdp_deflator | factor(gvkey) + factor(datacqtr) | 0 | 0, data = subset_pr)
 subset_pr$resid_profit <- residuals(resid_lm_profit)
-ggplot(subset_pr[subset_pr$rev_quart_1 == 1,], aes(x = quarters_since_breach, y = resid_profit)) + geom_point() + stat_summary_bin(fun.y='mean', color='orange', size=4, geom='point') + scale_x_continuous(limits = c(-25, 25)) + scale_y_continuous(limits = c(-500, 500)) + geom_vline(xintercept = 0, color = "blue", size = 2) + geom_smooth(data=subset(subset_pr, quarters_since_breach < 0), method = "lm") + geom_smooth(data=subset(subset_pr, quarters_since_breach > 0), method = "lm")
+ggplot(subset_pr, aes(x = quarters_since_breach, y = resid_profit)) + 
+  geom_point(alpha=0.6, color='grey') + 
+  stat_summary_bin(fun.y='mean', color='orange', bins=70, size=3, geom='point') + 
+  #scale_x_continuous(limits = c(-10, 10)) + 
+  scale_y_continuous(limits = c(-500, 500)) + 
+  geom_vline(xintercept = 0, color = "blue", size = 0.5) + 
+  geom_smooth(data=subset(subset_pr, quarters_since_breach <= 0), method = "lm", size=1, color='red') + 
+  geom_smooth(data=subset(subset_pr, quarters_since_breach >= 0), method = "lm", size=1, color='red')
+
+# Constant Sample:
+subset_pr_const <- comp[comp$gvkey %in% comp_full10,] 
+subset_pr_const <- subset_pr_const[!is.na(subset_pr_const$time_since_breach) & !is.na(subset_pr_const$niq) & !is.infinite(subset_pr_const$niq),]
+subset_pr_const <- subset_pr_const[subset_pr_const$quarters_since_breach %in% -10:10,]
+resid_lm_profit_const <- felm(niq ~ 0 | factor(gvkey) + factor(datacqtr) | 0 | 0, data = subset_pr_const)
+subset_pr_const$resid_profit <- residuals(resid_lm_profit_const)
+ggplot(subset_pr_const, aes(x = quarters_since_breach, y = resid_profit)) + geom_point(color='grey', alpha=0.8) + 
+  scale_y_continuous(limits = c(-500, 1000)) +
+  stat_summary_bin(fun.y='mean', color='orange', bins=70, size=3, geom='point') + 
+  geom_vline(subset_pr_const, mapping = aes(x = quarters_since_breach, y = resid), xintercept = 0, color = "blue", size = 0.5, alpha=0.6) + 
+  geom_smooth(data=subset(subset_pr_const, quarters_since_breach <= 0),  method = "lm", color='red') + 
+  geom_smooth(data=subset(subset_pr_const, quarters_since_breach >= 0),  method = "lm", color='red')
 
 # Original specification:
 orig_lm_pr_tt <- felm(niq ~ after + after_quarter_interact | factor(gvkey) + datacqtr + factor(gvkey):quarters_since_begin | 0 | datacqtr, data = subset_pr)
@@ -447,18 +465,99 @@ for (i in 1:nrow(crsp)) {
 }
 
 
+crsp <- read.csv('data/CRSP_cleaned.csv')
+crsp$RET <- as.numeric(as.character(crsp$RET))
+crsp$RETX <- as.numeric(as.character(crsp$RETX))
+crsp$Date.Made.Public <- as.Date(crsp$Date.Made.Public, format='%B %d, %Y')
+crsp$date <- as.Date(crsp$date)
+crsp$breachdate <- as.Date(crsp$breachdate)
+crsp$RFRET <- crsp$RET - crsp$RF
+crsp$RFRETX <- crsp$RETX - crsp$RF
 
+estimation_window <- 150
+prediction_window <- 10
+crsp_estimation_window <- crsp[crsp$days_since_breach >= -1 * estimation_window & crsp$days_since_breach < 0,]
+crsp_pred_window <- crsp[crsp$days_since_breach <= prediction_window & crsp$days_since_breach >= 0,]
+crsp_event_window <- crsp[crsp$days_since_breach <= prediction_window & crsp$days_since_breach >= -1 * prediction_window,]
 
-event_list = crsp[!is.na(crsp$Date.Made.Public) & crsp$Date.Made.Public != '',][c('COMNAM','Date.Made.Public')]
-names(event_list) <- c('name', 'when')
+results <- data.frame(ticker_occurance = character(),
+                      car_mmodel = double(),
+                      car_ffmodel = double(),
+                      aar_mmodel = double(),
+                      aar_ffmodel = double(),
+                      est_size = integer(),
+                      pred_size = integer(),
+                      stringsAsFactors = FALSE)
+cars <- data.frame(ticker_occurance = character(),
+                   days_since_breach = integer(),
+                   car_mmodel = double(),
+                   car_ffmodel = double(),
+                   stringsAsFactors = FALSE)
+sample_size <- 0
+for (ticker_occurance in unique(crsp$ticker_occurance)) {
+  subset_est <- crsp_estimation_window[crsp_estimation_window$ticker_occurance == ticker_occurance,]
+  subset_pred <- crsp_pred_window[crsp_pred_window$ticker_occurance == ticker_occurance,]
+  subset_evt <- crsp_event_window[crsp_event_window$ticker_occurance == ticker_occurance,]
+  
+  if(nrow(subset_est) <= estimation_window - (estimation_window/7)*3 - 1) next
+  if(nrow(subset_pred) <= prediction_window - (prediction_window/7)*3 - 1) next
+  
+  mmodel <- lm(RFRET ~ Mkt.RF, data=subset_est)
+  ffmodel <- lm(RFRET ~ Mkt.RF + SMB + HML + RMW + CMA, data=subset_est)
+  subset_pred$mmodel_pred <- predict(mmodel, subset_pred)
+  subset_pred$ffmodel_pred <- predict(ffmodel, subset_pred)
+  
+  car_mmodel <- sum(subset_pred$mmodel_pred, na.rm=TRUE)
+  car_ffmodel <- sum(subset_pred$ffmodel_pred, na.rm=TRUE)
+  aar_mmodel <- mean(subset_pred$mmodel_pred, na.rm=TRUE)
+  aar_ffmodel <- mean(subset_pred$ffmodel_pred, na.rm=TRUE)
+  
+  subset_evt$mmodel_pred <- predict(mmodel, subset_evt)
+  subset_evt$ffmodel_pred <- predict(ffmodel, subset_evt)
+  subset_evt$abnormal_mmodel <- subset_evt$RFRET - subset_evt$mmodel_pred
+  subset_evt$abnormal_ffmodel <- subset_evt$RFRET - subset_evt$ffmodel_pred
+  subset_evt$car_mmodel <- cumsum(subset_evt$abnormal_mmodel)
+  subset_evt$car_ffmodel <- cumsum(subset_evt$abnormal_ffmodel)
+  subset_evt$ticker_occurance <- as.character(subset_evt$ticker_occurance)
+  subset_evt = cbind(subset_evt$ticker_occurance, subset_evt$days_since_breach, subset_evt$car_mmodel, subset_evt$car_ffmodel)
+  
+  sample_size <- sample_size + 1
+  print(paste0('Firm: ', ticker_occurance, 
+               ' CAR: ', car_mmodel, 
+               ' AAR: ', aar_mmodel,
+               ' Est window: ', nrow(subset_est),
+               ' Pred window: ', nrow(subset_pred)))
+  results[nrow(results) + 1,] <- list("", car_mmodel, car_ffmodel, aar_mmodel, aar_ffmodel, nrow(subset_est), nrow(subset_pred))
+  results[nrow(results),'ticker_occurance'] <- ticker_occurance
+  cars <- rbind(cars, subset_evt)
+}
 
-return_table <- dcast(crsp, date ~ COMNAM, value = 'RET')
+names(cars) <- c('ticker_occurance', 'days_since_breach', 'car_mmodel', 'car_ffmodel')
+cars <- na.omit(cars)
+cars$car_mmodel <- as.numeric(as.character(cars$car_mmodel))
+cars$car_ffmodel <- as.numeric(as.character(cars$car_ffmodel))
+cars$days_since_breach <- as.numeric(as.character(cars$days_since_breach))
+names(results) <- c('ticker_occurance', 'car_mmodel', 'car_ffmodel', 'aar_mmodel', 'aar_ffmodel', 'est_size', 'pred_size')
 
-es <- eventstudy(firm.returns = crsp,
-                 eventList = crsp,
-                 width = 10,
-                 type = "None",
-                 to.remap = TRUE,
-                 remap = "cumsum",
-                 inference = TRUE,
-                 inference.strategy = "bootstrap")
+mmodel_tstat <- sqrt(nrow(results)) * (mean(results$car_mmodel)/sd(results$car_mmodel))
+ffmodel_tstat <- sqrt(nrow(results)) * (mean(results$car_ffmodel)/sd(results$car_ffmodel))
+
+acar_mmodel <- aggregate(car_mmodel ~ days_since_breach, data = cars, FUN=mean)
+acar_ffmodel <- aggregate(car_ffmodel ~ days_since_breach, data = cars, FUN=mean)
+acar_mmodel$days_since_breach <- as.numeric(as.character(acar_mmodel$days_since_breach))
+acar_ffmodel$days_since_breach <- as.numeric(as.character(acar_ffmodel$days_since_breach))
+
+ggplot(acar_mmodel, aes(x=days_since_breach, y=car_mmodel)) + geom_line() +
+  geom_vline(xintercept = 0, color='blue') +
+  ylab('Average Cumulative Abnormal Return') +
+  xlab('Days Since Breach') +
+  ggtitle('Event Study (Market Model)') +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ggsave('tables/MModel_ES.png')
+ggplot(acar_ffmodel, aes(x=days_since_breach, y=car_ffmodel)) + geom_line() +
+  geom_vline(xintercept = 0, color='blue') +
+  ylab('Average Cumulative Abnormal Return') +
+  xlab('Days Since Breach') +
+  ggtitle('Event Study (Fama-French Model)') +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ggsave('tables/FFModel_ES.png')
