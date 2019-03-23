@@ -1,36 +1,42 @@
+setwd('/mnt/good/honours_thesis/')
 library(stargazer)
 
-comp = read.csv('data/COMPUSTAT_merged.csv')
-crsp = read.csv('data/CRSP_merged.csv')
+comp = read.csv('data/COMPUSTAT_vars.csv')
+crsp = read.csv('data/CRSP_cleaned_mar.csv')
+breaches = read.csv('data/data_breaches_final.csv')
 crsp$RETX <- as.numeric(as.character(crsp$RETX))
 crsp$RET <- as.numeric(as.character(crsp$RET))
 
 comp_match = subset(comp, (!is.na(comp$match)))
 crsp_match = subset(crsp, (!is.na(crsp$match)))
+breaches = breaches[breaches$match == 1,]
+breaches = breaches[breaches$GVKEY %in% comp$gvkey,]
 
 # Table 1A: Compustat Firm variables
-stargazer(comp[c('niq','revtq','xsgay','mkvaltq')],
-          covariate.labels = c('Net income (Millions USD)','Revenue (Millions USD)','Sales, General, and Administrative Expenses (Millions USD)', 'Market Value (Millions USD)'),
+stargazer(comp[c('niq','revtq','xoprq','xsgaq','trend_index_company', 'trend_index_tic')],
+          covariate.labels = c('Net income (Millions USD)',
+                               'Revenue (Millions USD)',
+                               'Operation Expenses (Millions USD)',
+                               'Sales, General, and Administrative Expenses (Millions USD)',
+                               'Google Trends Index (Company Name)',
+                               'Google Trends Index (Company Ticker)'),
           summary.stat = c('n', 'mean', 'sd'),
           digits = 1,
           title = 'Table 1A: Summary Statistics for Fincial Variables',
           type='html')
 
 # Table 1B: Loss Type
-customer = sum(comp_match[comp_match$customer == 1,]$customer)
-employee = sum(comp_match[comp_match$employee == 1,]$employee)
-credit_card = sum(comp_match[comp_match$credit_card == 1,]$credit_card)
-cvv = sum(comp_match[comp_match$cvv == 1,]$cvv)
-social_security_number = sum(comp_match[comp_match$social_security == 1,]$social_security)
-name = sum(comp_match[comp_match$name == 1,]$name)
-address = sum(comp_match[comp_match$address == 1,]$address)
-personal_information = sum(comp_match[comp_match$personal_information == 1,]$personal_information)
-total_breaches = sum(comp_match[comp_match$match == 1,]$match)
-records = comp[!is.na(comp$match),]$Total.Records
+customer = sum(breaches[breaches$customer == 1,]$customer)
+credit_card = sum(breaches[breaches$credit_card == 1,]$credit_card)
+social_security_number = sum(breaches[breaches$social_security == 1,]$social_security)
+name = sum(breaches[breaches$name == 1,]$name)
+address = sum(breaches[breaches$address == 1,]$address)
+total_breaches = sum(breaches[breaches$match == 1,]$match)
+records = breaches$Total.Records
 mean_records = mean(records)
-loss_type <- data.frame(customer, employee, credit_card, cvv, social_security_number, name, address, personal_information, total_breaches)
+loss_type <- data.frame(customer, credit_card, social_security_number, name, address, total_breaches)
 stargazer(loss_type,
-          covariate.labels = c('Customer', 'Employee', 'Credit Card', 'CVV', 'Social Security Number', 'Name','Address', 'Personal Information', 'Total Breaches'),
+          covariate.labels = c('Customer', 'Credit Card', 'Social Security Number', 'Name','Address', 'Total Breaches'),
           digits = 0,
           title = 'Table 1B: Types of Data Loss',
           summary.stat = c('mean'),
@@ -61,6 +67,10 @@ stargazer(comp[c('nominal_gdp', 'real_gdp_billions', 'inflation_rate_yoy')],
           type='html')
 
 # Figure 1: Distribution of records leaked
-hist(log(comp_match$Total.Records), xlab='ln(Records Leaked)', ylab='Count', main='Figure 1: Histogram of Records Leaked per Data Breach (Natural Log)')
+hist(log(comp_match$Total.Records), 
+     xlab='ln(Records Leaked)',
+     ylab='Count', 
+     main='Histogram of Records Leaked per Data Breach (Natural Log)',
+     cex=1.5)
 
 
