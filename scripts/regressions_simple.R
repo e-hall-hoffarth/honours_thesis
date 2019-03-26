@@ -19,10 +19,10 @@ abs_mean = round(mean(subset$revtq),2)
 abs_sd = round(sd(subset$revtq),2)
 # Absolute Revenue:
 stargazer(felm(revtq ~ after | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset),
-          felm(revtq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset), 
-          felm(revtq ~ after + after_quarter_interact + Total.Records_interact_log +  trend_index_company + trend_index_company_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset),
-          felm(revtq ~ after + after_quarter_interact + rq1_interact + rq2_interact + rq3_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset),
-          felm(revtq ~ after + after_quarter_interact + customer_interact + credit_card_interact + social_security_interact + name_interact + address_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset),
+          felm(revtq ~ after + after_quarter_interact_b | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset), 
+          felm(revtq ~ after + after_quarter_interact_b + Total.Records_interact_log +  trend_index_company + trend_index_company_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset),
+          felm(revtq ~ after + after_quarter_interact_b + rq1_interact + rq2_interact + rq3_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset),
+          felm(revtq ~ after + after_quarter_interact_b + customer_interact + credit_card_interact + social_security_interact + name_interact + address_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset),
           covariate.labels = c('After Breach', 'After Breach x Quarter', 'Records Leaked (log) x After Breach', 'Google Search Index', 'Google Search Index x After Breach', 'After x Revenue Quartile 1','After x Revenue Quartile 2','After x Revenue Quartile 3', 'Customer Data Leaked x After breach', 'Credit Card Leaked x After breach', 'SSN Leaked x After breach', 'Name Leaked x After breach', 'Address Leaked x After breach'),
           dep.var.labels = c('Revenue'),
           omit.stat = 'ser',
@@ -31,8 +31,8 @@ stargazer(felm(revtq ~ after | factor(gvkey) + factor(quarters_since_begin) | 0 
           notes = c('Standard errors clustered at the company level', 
                     'Company and quarter fixed effects in all specifications', 
                     'Prediction period is up to 10 years before breach, and event period up to 3 years after'),
-          out = 'tables/revenue_specification3_3y.html',
-          type='html')
+          #out = 'tables/revenue_specification3_3y.html',
+          type='text')
 
 log_mean = round(mean(subset$log_revtq),2)
 log_sd = round(sd(subset$log_revtq),2)
