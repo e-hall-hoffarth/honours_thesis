@@ -79,6 +79,21 @@ comp$after_p4 <- ifelse(comp$datadate %m+% months(4) > comp$breachdate,1,0)
 comp$after_p5 <- ifelse(comp$datadate %m+% months(5) > comp$breachdate,1,0)
 comp$after_p6 <- ifelse(comp$datadate %m+% months(6) > comp$breachdate,1,0)
 
+comp$after_quarter_interact <- comp$after * comp$quarters_since_begin
+comp$after_m1_interact <- comp$after_m1 * comp$quarters_since_begin
+comp$after_m2_interact <- comp$after_m2 * comp$quarters_since_begin
+comp$after_m3_interact <- comp$after_m3 * comp$quarters_since_begin
+comp$after_m4_interact <- comp$after_m4 * comp$quarters_since_begin
+comp$after_m5_interact <- comp$after_m5 * comp$quarters_since_begin
+comp$after_m6_interact <- comp$after_m6 * comp$quarters_since_begin
+comp$after_p1_interact <- comp$after_p1 * comp$quarters_since_begin
+comp$after_p2_interact <- comp$after_p2 * comp$quarters_since_begin
+comp$after_p3_interact <- comp$after_p3 * comp$quarters_since_begin
+comp$after_p4_interact <- comp$after_p4 * comp$quarters_since_begin
+comp$after_p5_interact <- comp$after_p5 * comp$quarters_since_begin
+comp$after_p6_interact <- comp$after_p6 * comp$quarters_since_begin
+
+
 comp$time_since_begin <- comp$datadate - as.Date("2005-01-01")
 comp$breachquarter <- as.yearqtr(comp$breachdate)
 comp$quarters_since_breach <- (as.yearqtr(comp$datafqtr, format('%YQ%q')) - comp$breachquarter)*4
@@ -113,8 +128,6 @@ comp[!is.na(comp$revtq) & comp$revtq < 0,]$revtq_tolog <- NA
 comp[!is.na(comp$revtq) & comp$revtq < 0,]$revtq <- NA
 comp$log_revtq <- log(comp$revtq_tolog)
 
-comp$after_quarter_interact_b <- comp$after * comp$quarters_since_begin
-comp$after_quarter_interact_br <- comp$after * comp$quarters_since_breach
 comp$rh1 <- ifelse(comp$rev_quart_1 == 1 | comp$rev_quart_2, 1, 0)
 comp$rq1_interact <- comp$rev_quart_1*comp$after
 comp$rq2_interact <- comp$rev_quart_2*comp$after
