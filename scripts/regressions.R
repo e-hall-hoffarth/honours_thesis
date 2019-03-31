@@ -66,18 +66,26 @@ yahoo_gvkey <- comp[which.max(comp$Total.Records),]$gvkey
 comp <- comp[comp$gvkey != yahoo_gvkey,]
 
 comp$after <- ifelse(comp$datadate > comp$breachdate,1,0)
-comp$after_m1 <- ifelse(comp$datadate %m+% months(-1) > comp$breachdate,1,0)
-comp$after_m2 <- ifelse(comp$datadate %m+% months(-2) > comp$breachdate,1,0)
-comp$after_m3 <- ifelse(comp$datadate %m+% months(-3) > comp$breachdate,1,0)
-comp$after_m4 <- ifelse(comp$datadate %m+% months(-4) > comp$breachdate,1,0)
-comp$after_m5 <- ifelse(comp$datadate %m+% months(-5) > comp$breachdate,1,0)
-comp$after_m6 <- ifelse(comp$datadate %m+% months(-6) > comp$breachdate,1,0)
-comp$after_p1 <- ifelse(comp$datadate %m+% months(1) > comp$breachdate,1,0)
-comp$after_p2 <- ifelse(comp$datadate %m+% months(2) > comp$breachdate,1,0)
-comp$after_p3 <- ifelse(comp$datadate %m+% months(3) > comp$breachdate,1,0)
-comp$after_p4 <- ifelse(comp$datadate %m+% months(4) > comp$breachdate,1,0)
-comp$after_p5 <- ifelse(comp$datadate %m+% months(5) > comp$breachdate,1,0)
-comp$after_p6 <- ifelse(comp$datadate %m+% months(6) > comp$breachdate,1,0)
+comp$after_m1 <- ifelse(comp$datadate %m+% months(1) > comp$breachdate,1,0)
+comp$after_m2 <- ifelse(comp$datadate %m+% months(2) > comp$breachdate,1,0)
+comp$after_m3 <- ifelse(comp$datadate %m+% months(3) > comp$breachdate,1,0)
+comp$after_m4 <- ifelse(comp$datadate %m+% months(4) > comp$breachdate,1,0)
+comp$after_m5 <- ifelse(comp$datadate %m+% months(5) > comp$breachdate,1,0)
+comp$after_m6 <- ifelse(comp$datadate %m+% months(6) > comp$breachdate,1,0)
+comp$after_m12 <- ifelse(comp$datadate %m+% months(12) > comp$breachdate,1,0)
+comp$after_m18 <- ifelse(comp$datadate %m+% months(18) > comp$breachdate,1,0)
+comp$after_m24 <- ifelse(comp$datadate %m+% months(24) > comp$breachdate,1,0)
+comp$after_m36 <- ifelse(comp$datadate %m+% months(36) > comp$breachdate,1,0)
+comp$after_p1 <- ifelse(comp$datadate %m+% months(-1) > comp$breachdate,1,0)
+comp$after_p2 <- ifelse(comp$datadate %m+% months(-2) > comp$breachdate,1,0)
+comp$after_p3 <- ifelse(comp$datadate %m+% months(-3) > comp$breachdate,1,0)
+comp$after_p4 <- ifelse(comp$datadate %m+% months(-4) > comp$breachdate,1,0)
+comp$after_p5 <- ifelse(comp$datadate %m+% months(-5) > comp$breachdate,1,0)
+comp$after_p6 <- ifelse(comp$datadate %m+% months(-6) > comp$breachdate,1,0)
+comp$after_p12 <- ifelse(comp$datadate %m+% months(-12) > comp$breachdate,1,0)
+comp$after_p18 <- ifelse(comp$datadate %m+% months(-18) > comp$breachdate,1,0)
+comp$after_p24 <- ifelse(comp$datadate %m+% months(-24) > comp$breachdate,1,0)
+comp$after_p36 <- ifelse(comp$datadate %m+% months(-36) > comp$breachdate,1,0)
 
 comp$after_quarter_interact <- comp$after * comp$quarters_since_begin
 comp$after_m1_interact <- comp$after_m1 * comp$quarters_since_begin
@@ -86,12 +94,20 @@ comp$after_m3_interact <- comp$after_m3 * comp$quarters_since_begin
 comp$after_m4_interact <- comp$after_m4 * comp$quarters_since_begin
 comp$after_m5_interact <- comp$after_m5 * comp$quarters_since_begin
 comp$after_m6_interact <- comp$after_m6 * comp$quarters_since_begin
+comp$after_m12_interact <- comp$after_m12 * comp$quarters_since_begin
+comp$after_m18_interact <- comp$after_m18 * comp$quarters_since_begin
+comp$after_m24_interact <- comp$after_m24 * comp$quarters_since_begin
+comp$after_m36_interact <- comp$after_m36 * comp$quarters_since_begin
 comp$after_p1_interact <- comp$after_p1 * comp$quarters_since_begin
 comp$after_p2_interact <- comp$after_p2 * comp$quarters_since_begin
 comp$after_p3_interact <- comp$after_p3 * comp$quarters_since_begin
 comp$after_p4_interact <- comp$after_p4 * comp$quarters_since_begin
 comp$after_p5_interact <- comp$after_p5 * comp$quarters_since_begin
 comp$after_p6_interact <- comp$after_p6 * comp$quarters_since_begin
+comp$after_p12_interact <- comp$after_p12 * comp$quarters_since_begin
+comp$after_p18_interact <- comp$after_p18 * comp$quarters_since_begin
+comp$after_p24_interact <- comp$after_p24 * comp$quarters_since_begin
+comp$after_p36_interact <- comp$after_p36 * comp$quarters_since_begin
 
 
 comp$time_since_begin <- comp$datadate - as.Date("2005-01-01")
@@ -145,6 +161,8 @@ resid_xoprq_tt <- lm(xoprq ~ factor(gvkey) + factor(quarters_since_begin) + fact
 resid_xoprq_nott <- lm(xoprq ~ factor(gvkey) + factor(quarters_since_begin), data = comp, na.action=na.exclude)
 resid_xsgaq_tt <- lm(xsgaq ~ factor(gvkey) + factor(quarters_since_begin) + factor(gvkey)*time_since_begin, data = comp, na.action=na.exclude)
 resid_xsgaq_nott <- lm(xsgaq ~ factor(gvkey) + factor(quarters_since_begin), data = comp, na.action=na.exclude)
+resid_nopiq_tt <- lm(nopiq ~ factor(gvkey) + factor(quarters_since_begin) + factor(gvkey)*time_since_begin, data = comp, na.action=na.exclude)
+resid_nopiq_nott <- lm(nopiq ~ factor(gvkey) + factor(quarters_since_begin), data = comp, na.action=na.exclude)
 resid_quarters_since_breach <- lm(quarters_since_breach ~ factor(gvkey) + factor(quarters_since_begin), data = comp, na.action=na.exclude)
 
 comp$resid_logrev_tt <- residuals(resid_logrev_tt)
@@ -157,7 +175,9 @@ comp$resid_xoprq_tt <- residuals(resid_xoprq_tt)
 comp$resid_xoprq_nott <- residuals(resid_xoprq_nott)
 comp$resid_xsgaq_tt <- residuals(resid_xsgaq_tt)
 comp$resid_xsgaq_nott <- residuals(resid_xsgaq_nott)
-comp$resid_quarters_since_begin <- reisduals(resid_quarters_since_breach)
+comp$resid_nopiq_tt <- residuals(resid_nopiq_tt)
+comp$resid_nopiq_nott <- residuals(resid_nopiq_nott)
+comp$resid_quarters_since_begin <- residuals(resid_quarters_since_breach)
 
 comp_full25 <- merge(unique(comp[comp$quarters_since_breach <= -25,][c('gvkey', 'Date.Made.Public')]), unique(comp[comp$quarters_since_breach >= 25,][c('gvkey', 'Date.Made.Public')]))
 comp_full25 <- comp[comp$gvkey %in% comp_full25$gvkey & comp$Date.Made.Public %in% comp_full25$Date.Made.Public & comp$quarters_since_breach %in% -25:25,]
@@ -925,11 +945,11 @@ crsp$breachdate <- as.Date(crsp$breachdate)
 crsp$RFRET <- crsp$RET - crsp$RF
 crsp$RFRETX <- crsp$RETX - crsp$RF
 
-estimation_window <- 150
-prediction_window <- 10
-crsp_estimation_window <- crsp[crsp$days_since_breach >= -1 * estimation_window & crsp$days_since_breach < 0,]
+estimation_window <- 180
+prediction_window <- 5
+crsp_estimation_window <- crsp[crsp$days_since_breach >= -1 * estimation_window & crsp$days_since_breach < -5,]
 crsp_pred_window <- crsp[crsp$days_since_breach <= prediction_window & crsp$days_since_breach >= 0,]
-crsp_event_window <- crsp[crsp$days_since_breach <= prediction_window & crsp$days_since_breach >= -1 * prediction_window,]
+crsp_event_window <- crsp[crsp$days_since_breach <= prediction_window & crsp$days_since_breach >= -5,]
 
 results <- data.frame(ticker_occurance = character(),
                       car_mmodel = double(),
@@ -950,8 +970,9 @@ for (ticker_occurance in unique(crsp$ticker_occurance)) {
   subset_pred <- crsp_pred_window[crsp_pred_window$ticker_occurance == ticker_occurance,]
   subset_evt <- crsp_event_window[crsp_event_window$ticker_occurance == ticker_occurance,]
   
-  if(nrow(subset_est) <= estimation_window - (estimation_window/7)*3 - 1) next
-  if(nrow(subset_pred) <= prediction_window - (prediction_window/7)*3 - 1) next
+  # Rule out breaches for which there are very few observations
+  if(nrow(subset_est) <= estimation_window - (estimation_window/7)*4 - 1) next
+  if(nrow(subset_pred) <= prediction_window - (prediction_window/7)*4 - 1) next
   
   mmodel <- lm(RFRET ~ Mkt.RF, data=subset_est)
   ffmodel <- lm(RFRET ~ Mkt.RF + SMB + HML + RMW + CMA, data=subset_est)
@@ -973,7 +994,7 @@ for (ticker_occurance in unique(crsp$ticker_occurance)) {
   aar_ffmodel <- mean(as.numeric(as.character(subset_evt[subset_evt$days_since_breach >= 0,]$abnormal_ffmodel)), na.rm=TRUE)
   
   # Try to rule out events that aren't caused by the breach
-  if(!(subset_evt[which.min(subset_evt$abnormal_mmodel),]$days_since_breach %in% -2:2 || subset_evt[which.max(subset_evt$abnormal_mmodel),]$days_since_breach %in% -2:2)) next
+  # if(!(subset_evt[which.min(subset_evt$abnormal_mmodel),]$days_since_breach %in% -2:2 || subset_evt[which.max(subset_evt$abnormal_mmodel),]$days_since_breach %in% -2:2)) next
   
   sample_size <- sample_size + 1
   print(paste0('Firm: ', ticker_occurance, 
@@ -1017,6 +1038,8 @@ to_print <- rbind(to_print, list(round(mmodel_tstat, 2), round(ffmodel_tstat), 2
 to_print <- rbind(to_print, list(round(pt(mmodel_tstat, nrow(results) - 1), 2), round(pt(ffmodel_tstat, nrow(results) - 1), 2)))
 names(to_print) <- c('Market Model', 'Fama French Model')
 row.names(to_print) <- c('n','mean', 'sd', 't-stat', 'p')
+to_print
+
 
 write.csv(results, paste0('data/stock_study_cars_', prediction_window,'day.csv'))
 write.csv(to_print, paste0('data/stock_study_test_', prediction_window,'day.csv'), row.names = T, col.names = T)
@@ -1025,18 +1048,19 @@ ggplot(acar_mmodel, aes(x=days_since_breach, y=car_mmodel)) + geom_line() +
   geom_vline(xintercept = 0, color='blue') +
   ylab('Average Cumulative Abnormal Return') +
   xlab('Days Since Breach') +
-  ggtitle('Event Study (Market Model)') +
-  theme(plot.title = element_text(hjust = 0.5, size=24, face='bold', family="serif"),
-        axis.text=element_text(size=12, face='bold', family='serif'),
-        axis.title=element_text(size=12, face='bold', family='serif')) +
-  ggsave('tables/mmodel_eventstudy.png')
+  #ggtitle('Event Study (Market Model)') +
+  #theme(plot.title = element_text(hjust = 0.5, size=24, face='bold', family="serif"),
+  #      axis.text=element_text(size=12, face='bold', family='serif'),
+  #      axis.title=element_text(size=12, face='bold', family='serif'))
+ggsave('tex/mmodel_eventstudy.png')
+
 ggplot(acar_ffmodel, aes(x=days_since_breach, y=car_ffmodel)) + geom_line() +
   geom_vline(xintercept = 0, color='blue') +
   ylab('Average Cumulative Abnormal Return') +
   xlab('Days Since Breach') +
-  ggtitle('Event Study (Fama-French Model)') +
-  theme(plot.title = element_text(hjust=0.5)) +
-  ggsave('tables/ffmodel_eventstudy.png')
+  #ggtitle('Event Study (Fama-French Model)') +
+  #theme(plot.title = element_text(hjust=0.5))
+ggsave('tex/ffmodel_eventstudy.png')
 
 
 

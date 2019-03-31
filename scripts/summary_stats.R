@@ -23,7 +23,7 @@ stargazer(comp[c('niq','revtq','xoprq','xsgaq','trend_index_company', 'trend_ind
           summary.stat = c('n', 'mean', 'sd'),
           digits = 1,
           title = 'Table 1A: Summary Statistics for Fincial Variables',
-          type='html')
+          type='latex')
 
 # Table 1B: Loss Type
 customer = sum(breaches[breaches$customer == 1,]$customer)
@@ -40,7 +40,7 @@ stargazer(loss_type,
           digits = 0,
           title = 'Table 1B: Types of Data Loss',
           summary.stat = c('mean'),
-          type='html')
+          type='latex')
 
 # Table 1C: Magnitude of breaches
 stargazer(comp_match[c('Total.Records')],
@@ -48,7 +48,7 @@ stargazer(comp_match[c('Total.Records')],
           digits = 0,
           title = 'Table 1C: Magnitude of Data Loss',
           summary.stat = c('n', 'mean', 'min', 'max', 'sd'),
-          type='html')
+          type='latex')
 
 # Table 1D: CRSP Firm Variables
 stargazer(crsp[c('RETX','vwretx','Mkt.RF', 'SMB', 'HML')],
@@ -56,7 +56,7 @@ stargazer(crsp[c('RETX','vwretx','Mkt.RF', 'SMB', 'HML')],
           digits = 2,    
           summary.stat = c('n', 'mean', 'sd'),
           title = 'Table 1D: Summary Stock Market Data',
-          type='html')
+          type='latex')
 
 # Table 1E: Controls
 stargazer(comp[c('nominal_gdp', 'real_gdp_billions', 'inflation_rate_yoy')],
