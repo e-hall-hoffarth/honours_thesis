@@ -13,11 +13,11 @@ breaches = breaches[breaches$match == 1,]
 breaches = breaches[breaches$GVKEY %in% comp$gvkey,]
 
 # Table 1A: Compustat Firm variables
-stargazer(comp[c('niq','revtq','xoprq','xsgaq','trend_index_company', 'trend_index_tic')],
+stargazer(comp[c('niq','revtq','xoprq','nopiq','trend_index_company', 'trend_index_tic')],
           covariate.labels = c('Net income (Millions USD)',
                                'Revenue (Millions USD)',
                                'Operation Expenses (Millions USD)',
-                               'Sales, General, and Administrative Expenses (Millions USD)',
+                               'Non Operating Income (Net NO Expenses) (Millions USD)',
                                'Google Trends Index (Company Name)',
                                'Google Trends Index (Company Ticker)'),
           summary.stat = c('n', 'mean', 'sd'),

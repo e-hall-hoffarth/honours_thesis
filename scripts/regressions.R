@@ -970,7 +970,7 @@ for (ticker_occurance in unique(crsp$ticker_occurance)) {
   subset_pred <- crsp_pred_window[crsp_pred_window$ticker_occurance == ticker_occurance,]
   subset_evt <- crsp_event_window[crsp_event_window$ticker_occurance == ticker_occurance,]
   
-  # Rule out breaches for which there are very few observations
+  # Rule out breaches for which there are very few observations -> event happens close to boundry of data
   if(nrow(subset_est) <= estimation_window - (estimation_window/7)*4 - 1) next
   if(nrow(subset_pred) <= prediction_window - (prediction_window/7)*4 - 1) next
   

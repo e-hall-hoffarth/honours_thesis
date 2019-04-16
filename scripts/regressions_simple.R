@@ -173,6 +173,57 @@ subset_xopr_placebo_p36 <- comp[!is.na(comp$quarters_since_breach) &
                                 !is.infinite(comp$xoprq) &
                                 comp$quarters_since_breach %in% -40:16,]
 
+subset_nop_6m <- comp[!is.na(comp$quarters_since_breach) &
+                         !is.na(comp$nopiq) & 
+                         !is.infinite(comp$nopiq) &
+                         comp$quarters_since_breach %in% -40:2,]
+subset_nop_1y <- comp[!is.na(comp$quarters_since_breach) &
+                         !is.na(comp$nopiq) & 
+                         !is.infinite(comp$nopiq) &
+                         comp$quarters_since_breach %in% -40:4,]
+subset_nop_2y <- comp[!is.na(comp$quarters_since_breach) &
+                         !is.na(comp$nopiq) & 
+                         !is.infinite(comp$nopiq) &
+                         comp$quarters_since_breach %in% -40:8,]
+subset_nop_3y <- comp[!is.na(comp$quarters_since_breach) &
+                         !is.na(comp$nopiq) & 
+                         !is.infinite(comp$nopiq) &
+                         comp$quarters_since_breach %in% -40:12,]
+
+subset_nop_6mfb <- compfb[!is.na(compfb$quarters_since_breach) &
+                             !is.na(compfb$nopiq) &
+                             !is.infinite(compfb$nopiq) &
+                             compfb$quarters_since_breach %in% -40:2,]
+subset_nop_1yfb <- compfb[!is.na(compfb$quarters_since_breach) &
+                             !is.na(compfb$nopiq) &
+                             !is.infinite(compfb$nopiq) &
+                             compfb$quarters_since_breach %in% -40:4,]
+subset_nop_2yfb <- compfb[!is.na(compfb$quarters_since_breach) &
+                             !is.na(compfb$nopiq) &
+                             !is.infinite(compfb$nopiq) &
+                             compfb$quarters_since_breach %in% -40:8,]
+subset_nop_3yfb <- compfb[!is.na(compfb$quarters_since_breach) &
+                             !is.na(compfb$nopiq) &
+                             !is.infinite(compfb$nopiq) &
+                             compfb$quarters_since_breach %in% -40:12,]
+
+subset_nop_placebo_m24 <- comp[!is.na(comp$quarters_since_breach) &
+                                  !is.na(comp$nopiq) &
+                                  !is.infinite(comp$nopiq) &
+                                  comp$quarters_since_breach %in% -40:-4,]
+subset_nop_placebo_m36 <- comp[!is.na(comp$quarters_since_breach) &
+                                  !is.na(comp$nopiq) &
+                                  !is.infinite(comp$nopiq) &
+                                  comp$quarters_since_breach %in% -40:-8,]
+subset_nop_placebo_p24 <- comp[!is.na(comp$quarters_since_breach) &
+                                  !is.na(comp$nopiq) &
+                                  !is.infinite(comp$nopiq) &
+                                  comp$quarters_since_breach %in% -40:12,]
+subset_nop_placebo_p36 <- comp[!is.na(comp$quarters_since_breach) &
+                                  !is.na(comp$nopiq) &
+                                  !is.infinite(comp$nopiq) &
+                                  comp$quarters_since_breach %in% -40:16,]
+
 subset_test_3m<- comp[!is.na(comp$quarters_since_breach) &
                         comp$quarters_since_breach %in% -40:1,]
 subset_test_6m<- comp[!is.na(comp$quarters_since_breach) &
@@ -184,15 +235,15 @@ subset_test_2y<- comp[!is.na(comp$quarters_since_breach) &
 subset_test_3y<- comp[!is.na(comp$quarters_since_breach) &
                         comp$quarters_since_breach %in% -40:2,]
 
-subset_test_3mfb<- compfb[!is.na(comp$quarters_since_breach) &
+subset_test_3mfb<- compfb[!is.na(compfb$quarters_since_breach) &
                         compfb$quarters_since_breach %in% -40:1,]
-subset_test_6mfb<- compfb[!is.na(comp$quarters_since_breach) &
+subset_test_6mfb<- compfb[!is.na(compfb$quarters_since_breach) &
                         compfb$quarters_since_breach %in% -40:2,]
-subset_test_1yfb<- compfb[!is.na(comp$quarters_since_breach) &
+subset_test_1yfb<- compfb[!is.na(compfb$quarters_since_breach) &
                         compfb$quarters_since_breach %in% -40:4,]
-subset_test_2yfb<- compfb[!is.na(comp$quarters_since_breach) &
+subset_test_2yfb<- compfb[!is.na(compfb$quarters_since_breach) &
                         compfb$quarters_since_breach %in% -40:1,]
-subset_test_3yfb<- compfb[!is.na(comp$quarters_since_breach) &
+subset_test_3yfb<- compfb[!is.na(compfb$quarters_since_breach) &
                         compfb$quarters_since_breach %in% -40:2,]
 
 subset_test_placebo_m24 <- comp[!is.na(comp$quarters_since_breach) &
@@ -284,22 +335,24 @@ xopr_3y_sd <- round(sd(subset_xopr_3y$xoprq), 2)
 xopr_3y_meanfb <- round(mean(subset_xopr_3yfb$xoprq),2)
 xopr_3y_sdfb <- round(sd(subset_xopr_3yfb$xoprq), 2)
 
-mean_ceqq_1y <- round(mean(subset_test_1y$ceqq), 2)
-mean_xsgaq_1y <-round(mean(subset_test_1y$xsgaq), 2)
-mean_emp_1y <- round(mean(subset_test_1y$emp), 2)
-mean_trend_index_company_1y <- round(mean(subset_test_1y$trend_index_company), 2)
-mean_trend_index_tic_1y <- round(mean(subset_test_1y$trend_index_tic), 2)
-sd_ceqq_1y <- round(sd(subset_test_1y$ceqq), 2)
-sd_xsgaq_1y <-round(sd(subset_test_1y$xsgaq), 2)
-sd_emp_1y <- round(sd(subset_test_1y$emp), 2)
-sd_trend_index_company_1y <- round(sd(subset_test_1y$trend_index_company), 2)
-sd_trend_index_tic_1y <- round(sd(subset_test_1y$trend_index_tic), 2)
+mean_ceqq_1y <- round(mean(subset_test_1y$ceqq, na.rm=T), 2)
+mean_xsgaq_1y <-round(mean(subset_test_1y$xsgaq, na.rm=T), 2)
+mean_emp_1y <- round(mean(subset_test_1y$emp, na.rm=T), 2)
+mean_trend_index_company_1y <- round(mean(subset_test_1y$trend_index_company, na.rm=T), 2)
+mean_trend_index_tic_1y <- round(mean(subset_test_1y$trend_index_tic, na.rm=T), 2)
+sd_ceqq_1y <- round(sd(subset_test_1y$ceqq, na.rm=T), 2)
+sd_xsgaq_1y <-round(sd(subset_test_1y$xsgaq, na.rm=T), 2)
+sd_emp_1y <- round(sd(subset_test_1y$emp, na.rm=T), 2)
+sd_trend_index_company_1y <- round(sd(subset_test_1y$trend_index_company, na.rm=T), 2)
+sd_trend_index_tic_1y <- round(sd(subset_test_1y$trend_index_tic, na.rm=T), 2)
 
 
 es_controls <- read.csv('data/event_study_controls.csv')
 n_breaches <- aggregate(comp$breachdate, by=list(comp$gvkey), FUN=(function(x) length(unique(x))))
 names(n_breaches) <- c('GVKEY', 'nbreaches')
 es_controls <- merge(es_controls, n_breaches, by='GVKEY', all.x = TRUE, all.y = FALSE)
+
+es_controls$breach_number <- lapply(es_controls$ticker_occurance, FUN=(function(x) strsplit(x, "_")[2]))
 es_controls$Total.Records_tolog <- es_controls$Total.Records
 es_controls[!is.na(es_controls$Total.Records) & es_controls$Total.Records == 0,]$Total.Records_tolog <- 0.0001
 es_controls$Total.Records_log <- log(es_controls$Total.Records_tolog)
@@ -659,16 +712,16 @@ stargazer(felm(xoprq ~ after + after_quarter_interact | factor(gvkey) + factor(q
 ######
 # Non operating exenses
 # Specification 1
-stargazer(felm(nopiq ~ after | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y),
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y), 
-          felm(nopiq ~ after + after_quarter_interact + Total.Records_interact_log +  trend_index_company + trend_index_company_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y),
-          felm(nopiq ~ after + after_quarter_interact + rq1_interact + rq2_interact + rq3_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y),
-          felm(nopiq ~ after + after_quarter_interact + customer_interact + credit_card_interact + social_security_interact + name_interact + address_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y),
+stargazer(felm(nopiq ~ after | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y),
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y), 
+          felm(nopiq ~ after + after_quarter_interact + Total.Records_interact_log +  trend_index_company + trend_index_company_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y),
+          felm(nopiq ~ after + after_quarter_interact + rq1_interact + rq2_interact + rq3_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y),
+          felm(nopiq ~ after + after_quarter_interact + customer_interact + credit_card_interact + social_security_interact + name_interact + address_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y),
           covariate.labels = c('After Breach', 'After Breach x Quarter', 'Records Leaked (log) x After Breach', 'Google Search Index', 'Google Search Index x After Breach', 'After x Revenue Quartile 1','After x Revenue Quartile 2','After x Revenue Quartile 3', 'Customer Data Leaked x After breach', 'Credit Card Leaked x After breach', 'SSN Leaked x After breach', 'Name Leaked x After breach', 'Address Leaked x After breach'),
           dep.var.labels = c('Non Operating Expenses'),
           omit.stat = 'ser',
-          add.lines = list(c('Dependant Mean', round(mean(subset_test_1y$nopiq, na.rm=T), 2), round(mean(subset_test_1y$nopiq, na.rm=T), 2), round(mean(subset_test_1y$nopiq, na.rm=T), 2), round(mean(subset_test_1y$nopiq, na.rm=T), 2), round(mean(subset_test_1y$nopiq, na.rm=T), 2)),
-                           c('Dependant SD', round(sd(subset_test_1y$nopiq, na.rm=T), 2), round(sd(subset_test_1y$nopiq, na.rm=T), 2), round(sd(subset_test_1y$nopiq, na.rm=T), 2), round(sd(subset_test_1y$nopiq, na.rm=T), 2), round(sd(subset_test_1y$nopiq, na.rm=T), 2))),
+          add.lines = list(c('Dependant Mean', round(mean(subset_nop_1y$nopiq, na.rm=T), 2), round(mean(subset_nop_1y$nopiq, na.rm=T), 2), round(mean(subset_nop_1y$nopiq, na.rm=T), 2), round(mean(subset_nop_1y$nopiq, na.rm=T), 2), round(mean(subset_nop_1y$nopiq, na.rm=T), 2)),
+                           c('Dependant SD', round(sd(subset_nop_1y$nopiq, na.rm=T), 2), round(sd(subset_nop_1y$nopiq, na.rm=T), 2), round(sd(subset_nop_1y$nopiq, na.rm=T), 2), round(sd(subset_nop_1y$nopiq, na.rm=T), 2), round(sd(subset_nop_1y$nopiq, na.rm=T), 2))),
           notes = c('Standard errors clustered at the company level', 
                     'Company and quarter fixed effects in all specifications', 
                     'Prediction period is up to 10 years before breach, and event period up to 1 year after'),
@@ -676,32 +729,32 @@ stargazer(felm(nopiq ~ after | factor(gvkey) + factor(quarters_since_begin) | 0 
           type='latex')
 
 # Specification 2 (Event windows)
-stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_6m),
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y), 
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_2y),
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_3y),
+stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_6m),
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y), 
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_2y),
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_3y),
           covariate.labels = c('After Breach', 'After Breach x Quarter'),
           dep.var.labels = c('Non Operating Expenses (Event Period)'),
           column.labels = c('(6 Months)', '(1 Year)', '(2 Years)', '(3 Years)'),
           omit.stat = 'ser',
-          add.lines = list(c('Dependant Mean', round(mean(subset_test_6m$nopiq, na.rm=T), 2), round(mean(subset_test_1y$nopiq, na.rm=T), 2), round(mean(subset_test_2y$nopiq, na.rm=T), 2), round(mean(subset_test_3y$nopiq, na.rm=T), 2)),
-                           c('Dependant SD', round(sd(subset_test_6m$nopiq, na.rm=T), 2), round(sd(subset_test_1y$nopiq, na.rm=T), 2), round(sd(subset_test_2y$nopiq, na.rm=T), 2), round(sd(subset_test_3y$nopiq, na.rm=T), 2))),
+          add.lines = list(c('Dependant Mean', round(mean(subset_nop_6m$nopiq, na.rm=T), 2), round(mean(subset_nop_1y$nopiq, na.rm=T), 2), round(mean(subset_nop_2y$nopiq, na.rm=T), 2), round(mean(subset_nop_3y$nopiq, na.rm=T), 2)),
+                           c('Dependant SD', round(sd(subset_nop_6m$nopiq, na.rm=T), 2), round(sd(subset_nop_1y$nopiq, na.rm=T), 2), round(sd(subset_nop_2y$nopiq, na.rm=T), 2), round(sd(subset_nop_3y$nopiq, na.rm=T), 2))),
           notes = c('Standard errors clustered at the company level', 
                     'Company and quarter fixed effects in all specifications'),
           out = 'tex/nopexpense_specification2.tex',
           type='latex')
 
 # Specification 3 (First Breach)
-stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_6mfb),
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1yfb), 
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_2yfb),
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_3yfb),
+stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_6mfb),
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1yfb), 
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_2yfb),
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_3yfb),
           covariate.labels = c('After Breach', 'After Breach x Quarter'),
           dep.var.labels = c('Non Operating Expenses (Event Period)'),
           column.labels = c('(6 Months)', '(1 Year)', '(2 Years)', '(3 Years)'),
           omit.stat = 'ser',
-          add.lines = list(c('Dependant Mean', round(mean(subset_test_6mfb$nopiq, na.rm=T), 2), round(mean(subset_test_1yfb$nopiq, na.rm=T), 2), round(mean(subset_test_2yfb$nopiq, na.rm=T), 2), round(mean(subset_test_3yfb$nopiq, na.rm=T), 2)),
-                           c('Dependant SD', round(sd(subset_test_6mfb$nopiq, na.rm=T), 2), round(sd(subset_test_1yfb$nopiq, na.rm=T), 2), round(sd(subset_test_2yfb$nopiq, na.rm=T), 2), round(sd(subset_test_3yfb$nopiq, na.rm=T), 2))),
+          add.lines = list(c('Dependant Mean', round(mean(subset_nop_6mfb$nopiq, na.rm=T), 2), round(mean(subset_nop_1yfb$nopiq, na.rm=T), 2), round(mean(subset_nop_2yfb$nopiq, na.rm=T), 2), round(mean(subset_nop_3yfb$nopiq, na.rm=T), 2)),
+                           c('Dependant SD', round(sd(subset_nop_6mfb$nopiq, na.rm=T), 2), round(sd(subset_nop_1yfb$nopiq, na.rm=T), 2), round(sd(subset_nop_2yfb$nopiq, na.rm=T), 2), round(sd(subset_nop_3yfb$nopiq, na.rm=T), 2))),
           notes = c('Standard errors clustered at the company level', 
                     'Company and quarter fixed effects in all specifications'),
           out = 'tex/nopexpense_specification3.tex',
@@ -709,17 +762,17 @@ stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(q
 
 
 # Specificaiton 4 (Robustness)
-stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y),
-          felm(nopiq ~ after_m24 + after_m24_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_placebo_m24), 
-          felm(nopiq ~ after_m36 + after_m36_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_placebo_m36), 
-          felm(nopiq ~ after_p24 + after_p24_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_placebo_p24),
-          felm(nopiq ~ after_p36 + after_p36_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_placebo_p36),
+stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y),
+          felm(nopiq ~ after_m24 + after_m24_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_placebo_m24), 
+          felm(nopiq ~ after_m36 + after_m36_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_placebo_m36), 
+          felm(nopiq ~ after_p24 + after_p24_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_placebo_p24),
+          felm(nopiq ~ after_p36 + after_p36_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_placebo_p36),
           covariate.labels = c('After Breach', 'After Breach x Quarter'),
           dep.var.labels = c('Non Operating Expenses (offset of event date)'),
           column.labels = c('(0)', '(-2 Years)', '(-3 Years)', '(+2 Years)', '(+3 Years)'),
           omit.stat = 'ser',
-          add.lines = list(c('Dependant Mean', round(mean(subset_test_1y$nopiq, na.rm=T), 2), round(mean(subset_test_placebo_m24$nopiq, na.rm=T), 2), round(mean(subset_test_placebo_m36$nopiq, na.rm=T), 2), round(mean(subset_test_placebo_p24$nopiq, na.rm=T), 2), round(mean(subset_test_placebo_p36$nopiq, na.rm=T), 2)),
-                           c('Dependant SD', round(sd(subset_test_1y$nopiq, na.rm=T), 2), round(sd(subset_test_placebo_m24$nopiq, na.rm=T), 2), round(sd(subset_test_placebo_m36$nopiq, na.rm=T), 2), round(sd(subset_test_placebo_p24$nopiq, na.rm=T), 2), round(sd(subset_test_placebo_p36$nopiq, na.rm=T), 2))),
+          add.lines = list(c('Dependant Mean', round(mean(subset_nop_1y$nopiq, na.rm=T), 2), round(mean(subset_nop_placebo_m24$nopiq, na.rm=T), 2), round(mean(subset_nop_placebo_m36$nopiq, na.rm=T), 2), round(mean(subset_nop_placebo_p24$nopiq, na.rm=T), 2), round(mean(subset_nop_placebo_p36$nopiq, na.rm=T), 2)),
+                           c('Dependant SD', round(sd(subset_nop_1y$nopiq, na.rm=T), 2), round(sd(subset_nop_placebo_m24$nopiq, na.rm=T), 2), round(sd(subset_nop_placebo_m36$nopiq, na.rm=T), 2), round(sd(subset_nop_placebo_p24$nopiq, na.rm=T), 2), round(sd(subset_nop_placebo_p36$nopiq, na.rm=T), 2))),
           notes = c('Standard errors clustered at the company level', 
                     'Company and quarter fixed effects in all specifications', 
                     'Prediction period is up to 10 years before breach, and event period up to 1 year after'),
@@ -727,17 +780,17 @@ stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(q
           type='latex')
 
 # Specification 5
-stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y[subset_test_1y$nbreaches == 1,]),
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y[subset_test_1y$nbreaches == 2,]), 
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y[subset_test_1y$nbreaches == 3,]),
-          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_test_1y[subset_test_1y$nbreaches >= 4,]),
+stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y[subset_nop_1y$nbreaches == 1,]),
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y[subset_nop_1y$nbreaches == 2,]), 
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y[subset_nop_1y$nbreaches == 3,]),
+          felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(quarters_since_begin) | 0 | gvkey, data = subset_nop_1y[subset_nop_1y$nbreaches >= 4,]),
           covariate.labels = c('After Breach', 'After Breach x Quarter'),
           dep.var.labels = c('Non Operatiing Expenses (Number of Breaches for Firm)'),
           column.labels = c('(1)', '(2)', '(3)', '(4+)'),
           omit.stat = 'ser',
-          add.lines = list(c('Number of Data Breaches ', length(unique(subset_test_1y[subset_test_1y$nbreaches == 1,]$Date.Made.Public)), length(unique(subset_test_1y[subset_test_1y$nbreaches == 2,]$Date.Made.Public)),length(unique(subset_test_1y[subset_test_1y$nbreaches == 3,]$Date.Made.Public)),length(unique(subset_test_1y[subset_test_1y$nbreaches >= 4,]$Date.Made.Public))),
-                           c('Dependant Mean', round(mean(subset_test_1y[subset_test_1y$nbreaches == 1,]$nopiq),2), round(mean(subset_test_1y[subset_test_1y$nbreaches == 2,]$nopiq),2), round(mean(subset_test_1y[subset_test_1y$nbreaches == 3,]$nopiq),2), round(mean(subset_test_1y[subset_test_1y$nbreaches >= 4,]$nopiq),2)),
-                           c('Dependant SD', round(sd(subset_test_1y[subset_test_1y$nbreaches == 1,]$nopiq),2), round(sd(subset_test_1y[subset_test_1y$nbreaches == 2,]$nopiq),2), round(sd(subset_test_1y[subset_test_1y$nbreaches == 3,]$nopiq),2), round(sd(subset_test_1y[subset_test_1y$nbreaches >= 4,]$nopiq),2))),
+          add.lines = list(c('Number of Data Breaches ', length(unique(subset_nop_1y[subset_nop_1y$nbreaches == 1,]$Date.Made.Public)), length(unique(subset_nop_1y[subset_nop_1y$nbreaches == 2,]$Date.Made.Public)),length(unique(subset_nop_1y[subset_nop_1y$nbreaches == 3,]$Date.Made.Public)),length(unique(subset_nop_1y[subset_nop_1y$nbreaches >= 4,]$Date.Made.Public))),
+                           c('Dependant Mean', round(mean(subset_nop_1y[subset_nop_1y$nbreaches == 1,]$nopiq),2), round(mean(subset_nop_1y[subset_nop_1y$nbreaches == 2,]$nopiq),2), round(mean(subset_nop_1y[subset_nop_1y$nbreaches == 3,]$nopiq),2), round(mean(subset_nop_1y[subset_nop_1y$nbreaches >= 4,]$nopiq),2)),
+                           c('Dependant SD', round(sd(subset_nop_1y[subset_nop_1y$nbreaches == 1,]$nopiq),2), round(sd(subset_nop_1y[subset_nop_1y$nbreaches == 2,]$nopiq),2), round(sd(subset_nop_1y[subset_nop_1y$nbreaches == 3,]$nopiq),2), round(sd(subset_nop_1y[subset_nop_1y$nbreaches >= 4,]$nopiq),2))),
           notes = c('Standard errors clustered at the company level', 
                     'Company and quarter fixed effects in all specifications',
                     'Prediction period is up to 10 years before breach, and event period up to 1 year after'),
@@ -748,14 +801,15 @@ stargazer(felm(nopiq ~ after + after_quarter_interact | factor(gvkey) + factor(q
 # Other controls:
 stargazer(felm(xsgaq ~ after + after_quarter_interact | factor(gvkey) + datafqtr | 0 | gvkey, data = subset_test_1y),
           felm(ceqq ~ after + after_quarter_interact | factor(gvkey) + datafqtr | 0 | gvkey, data = subset_test_1y),
+          felm(epspiq ~ after + after_quarter_interact | factor(gvkey) + datafqtr | 0 | gvkey, data = subset_test_1y),
           felm(emp ~ after + after_quarter_interact | factor(gvkey) + datafqtr | 0 | gvkey, data = subset_test_1y),
           felm(trend_index_company ~ after + after_quarter_interact | factor(gvkey) + datafqtr | 0 | gvkey, data = subset_test_1y),
           felm(trend_index_tic ~ after + after_quarter_interact | factor(gvkey) + datafqtr | 0 | gvkey, data = subset_test_1y),
-          dep.var.labels = c('Sales, General and Other Expenses', 'Total Shareholders\' Equity', 'Number of Employees', 
-                             'Google Searches (Company Name)', 'Google Searches (Stock Ticker)'),
+          dep.var.labels = c('Sales, General and Other Expenses', 'Total Shareholders\' Equity', 'Earnings per Share {Basic)',
+                             'Number of Employees', 'Google Searches (Company Name)', 'Google Searches (Stock Ticker)'),
           covariate.labels = c('After Breach', 'After Breach x Quarters Since Breach'),
-          add.lines = list(c('Dependant Mean', mean_xsgaq_1y, mean_ceqq_1y, mean_emp_1y, mean_trend_index_company_1y, mean_trend_index_tic_1y),
-                           c('Dependant SD', sd_xsgaq_1y, sd_ceqq_1y, sd_emp_1y, sd_trend_index_company_1y, sd_trend_index_tic_1y)),
+          add.lines = list(c('Dependant Mean', mean_xsgaq_1y, mean_ceqq_1y, round(mean(subset_test_1y$epspiq, na.rm=T), 2), mean_emp_1y, mean_trend_index_company_1y, mean_trend_index_tic_1y),
+                           c('Dependant SD', sd_xsgaq_1y, sd_ceqq_1y, round(sd(subset_test_1y$epspiq, na.rm=T), 2), sd_emp_1y, sd_trend_index_company_1y, sd_trend_index_tic_1y)),
           omit=c('gvkey', 'datafqtr', 'quarters_since_begin', 'Constant'),
           omit.stat = 'ser',
           notes = c('Standard Errors clustered at the quarter level', 
@@ -795,7 +849,8 @@ stargazer(felm(car_ffmodel_percent_5d ~ days_since_begin | Year.of.Breach | 0 | 
 ggplot(subset_rev_3y, aes(x = quarters_since_breach, y = resid_rev_nott)) + 
   geom_point(alpha=0, color='grey') + 
   stat_summary_bin(fun.y='mean', color='black', bins=80, geom='point', alpha=0.5, size=2) + 
-  scale_y_continuous(limits = c(-50, 50)) + 
+  scale_y_continuous(limits = c(-50, 50)) +
+  #scale_x_continuous(limits = c(-12,12)) +
   geom_vline(xintercept = 0, color = "orange", size = 2, alpha = 0.5) + 
   geom_smooth(data=subset(subset_rev_3y, quarters_since_breach <= 0), method = "lm", size=1, color='blue', se=F) + 
   geom_smooth(data=subset(subset_rev_3y, quarters_since_breach >= 0), method = "lm", size=1, color='blue', se=F) +
@@ -812,6 +867,7 @@ ggplot(subset_rev_3y, aes(x = quarters_since_breach, y = resid_logrev_nott)) +
   geom_point(alpha=0, color='grey') + 
   stat_summary_bin(fun.y='mean', color='black', bins=80, geom='point', alpha=0.5, size=2) + 
   scale_y_continuous(limits = c(-0.2, 0.2)) + 
+  #scale_x_continuous(limits = c(-5,5)) +
   geom_vline(xintercept = 0, color = "orange", size = 2, alpha = 0.5) + 
   geom_smooth(data=subset(subset_rev_3y, quarters_since_breach <= 0), method = "lm", size=1, color='blue', se=F) + 
   geom_smooth(data=subset(subset_rev_3y, quarters_since_breach >= 0), method = "lm", size=1, color='blue', se=F) +
@@ -828,6 +884,7 @@ ggplot(subset_pr_3y, aes(x = quarters_since_breach, y = resid_pr_nott)) +
   geom_point(alpha=0, color='grey') + 
   stat_summary_bin(fun.y='mean', color='black', bins=100, geom='point', alpha=0.5, size=2) + 
   scale_y_continuous(limits = c(-10, 10)) + 
+  #scale_x_continuous(limits = c(-5,5)) +
   geom_vline(xintercept = 0, color = "orange", size = 2, alpha = 0.5) + 
   geom_smooth(data=subset(subset_pr_3y, quarters_since_breach <= 0), method = "lm", size=1, color='blue', se=F) + 
   geom_smooth(data=subset(subset_pr_3y, quarters_since_breach >= 0), method = "lm", size=1, color='blue', se=F) +
@@ -843,7 +900,8 @@ ggsave('tex/mean_resid_profit_3y.png')
 ggplot(subset_xopr_3y, aes(x = quarters_since_breach, y = resid_xoprq_nott)) + 
   geom_point(alpha=0, color='grey') + 
   stat_summary_bin(fun.y='mean', color='black', bins=100, geom='point', alpha=0.5, size=2) + 
-  scale_y_continuous(limits = c(-40, 40)) + 
+  scale_y_continuous(limits = c(-40, 40)) +
+  scale_x_continuous(limits = c(-5,5)) +
   geom_vline(xintercept = 0, color = "orange", size = 2, alpha = 0.5) + 
   geom_smooth(data=subset(subset_xopr_3y, quarters_since_breach <= 0), method = "lm", size=1, color='blue', se=F) + 
   geom_smooth(data=subset(subset_xopr_3y, quarters_since_breach >= 0), method = "lm", size=1, color='blue', se=F) +
@@ -856,13 +914,14 @@ ggplot(subset_xopr_3y, aes(x = quarters_since_breach, y = resid_xoprq_nott)) +
 ggsave('tex/mean_resid_xoprq_3y.png')
 
 # Non Operating Expenses
-ggplot(subset_test_3y, aes(x = quarters_since_breach, y = resid_nopiq_nott)) + 
+ggplot(subset_nop_3y, aes(x = quarters_since_breach, y = resid_nopiq_nott)) + 
   geom_point(alpha=0, color='grey') + 
   stat_summary_bin(fun.y='mean', color='black', bins=100, geom='point', alpha=0.5, size=2) + 
   scale_y_continuous(limits = c(-40, 40)) + 
+  #scale_x_continuous(limits = c(-5,5)) +
   geom_vline(xintercept = 0, color = "orange", size = 2, alpha = 0.5) + 
-  geom_smooth(data=subset(subset_xopr_3y, quarters_since_breach <= 0), method = "lm", size=1, color='blue', se=F) + 
-  geom_smooth(data=subset(subset_xopr_3y, quarters_since_breach >= 0), method = "lm", size=1, color='blue', se=F) +
+  geom_smooth(data=subset(subset_nop_3y, quarters_since_breach <= 0), method = "lm", size=1, color='blue', se=F) + 
+  geom_smooth(data=subset(subset_nop_3y, quarters_since_breach >= 0), method = "lm", size=1, color='blue', se=F) +
   xlab('Quarters Since Breach') +
   ylab('') +
   #ggtitle('Mean Residual Operating Expenses (Fixed Effects Removed)') +
@@ -870,4 +929,30 @@ ggplot(subset_test_3y, aes(x = quarters_since_breach, y = resid_nopiq_nott)) +
         axis.text=element_text(size=12, family='serif'),
         axis.title=element_text(size=12, family='serif'))
 ggsave('tex/mean_resid_nopiq_3y.png')
+
+subset_rev_3y$resid_rev_nott <- residuals(felm(revtq ~ 0 | factor(gvkey) + factor(quarters_since_begin) | 0 | 0, data = subset_rev_3y))
+subset_pr_3y$resid_pr_nott <- residuals(felm(niq ~ 0 | factor(gvkey) + factor(quarters_since_begin) | 0 | 0, data = subset_pr_3y))
+subset_xopr_3y$resid_xoprq_nott <- residuals(felm(xoprq ~ 0 | factor(gvkey) + factor(quarters_since_begin) | 0 | 0, data = subset_xopr_3y))
+subset_nop_3y$resid_nopiq_nott <- residuals(felm(nopiq ~ 0 | factor(gvkey) + factor(quarters_since_begin) | 0 | 0, data = subset_nop_3y))
+
+# All in one
+ggplot() + 
+  geom_point(aes(x = quarters_since_breach, y = resid_rev_nott), data=subset_rev_3y, alpha=0, color='grey') + 
+  geom_point(aes(x = quarters_since_breach, y = resid_pr_nott), data=subset_pr_3y, alpha=0, color='grey') + 
+  geom_point(aes(x = quarters_since_breach, y = resid_xoprq_nott), data=subset_xopr_3y, alpha=0, color='grey') + 
+  geom_point(aes(x = quarters_since_breach, y = resid_nopiq_nott), data=subset_nop_3y, alpha=0, color='grey') + 
+  stat_summary_bin(aes(x = quarters_since_breach, y = resid_rev_nott), data=subset_rev_3y, fun.y='mean', color='black', geom='line', alpha=1, size=1) + 
+  stat_summary_bin(aes(x = quarters_since_breach, y = resid_pr_nott), data=subset_pr_3y, fun.y='mean', color='green', geom='line', alpha=1, size=1) + 
+  stat_summary_bin(aes(x = quarters_since_breach, y = resid_xoprq_nott), data=subset_xopr_3y, fun.y='mean', color='red', geom='line', alpha=1, size=1) + 
+  stat_summary_bin(aes(x = quarters_since_breach, y = resid_nopiq_nott), data=subset_nop_3y, fun.y='mean', color='yellow', geom='line', alpha=1, size=1) + 
+  scale_y_continuous(limits = c(-10, 10)) +
+  scale_x_continuous(limits = c(-12,12)) +
+  geom_vline(xintercept = 0, color = 'black', size = 2, alpha = 0.5) + 
+  geom_hline(yintercept = 0, color = 'black', size = 2, alpha = 0.5) +
+  xlab('Quarters Since Breach') +
+  ylab('') +
+  guides(fill=T) +
+  theme(plot.title = element_text(hjust = 0.5, size=24, face='bold', family="serif"),
+        axis.text=element_text(size=12, family='serif'),
+        axis.title=element_text(size=12, family='serif'))
 
